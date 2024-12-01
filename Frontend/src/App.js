@@ -10,7 +10,7 @@ import ReactLenis from "lenis/react";
 function App() {
   const zoomLevel = Math.round(window.devicePixelRatio * 100);
   console.log(zoomLevel);
-
+  document.documentElement.style.zoom = "0.9";
   const el = useRef();
   return (
     <ReactLenis root ref={el}>
