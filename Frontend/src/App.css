@@ -1,0 +1,47 @@
+.App {
+  background: var(--Grey__950, #f5f7f8);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html,
+body {
+  overflow-x: hidden;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --Primary__500: #3da885;
+  --Primary__350: #297058;
+  --Primary__200: #225d4a;
+  --Primary__50: #0e251d;
+  --Primary__650: #69c9a9;
+  --Primary__800: #8fd6be;
+  --Primary__950: #c7ebdf;
+  --Accent__50: #312902;
+  --Accent__200: #7a6606;
+  --Accent__350: #c3a309;
+  --Accent__500: #f4cc0b;
+  --Accent__650: #f7db55;
+  --Accent__800: #f9e685;
+  --Accent__950: #fdf5ce;
+  --Grey__50: #0a2a35;
+  --Grey__200: #2d4952;
+  --Grey__350: #546b72;
+  --Grey__500: #829298;
+  --Grey__650: #abb6ba;
+  --Grey__800: #d6dcde;
+  --Grey__950: #f5f7f8;
+  --Secondary__500: #6256ca;
+  --Secondary__50: #0f0c27;
+  --Secondary__200: #251f61;
+  --Secondary__350: #3c319b;
+  --Secondary__650: #8177d4;
+  --Secondary__800: #b7b1e7;
+  --Secondary__950: #edebf9;
+}

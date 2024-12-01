@@ -1,0 +1,177 @@
+.h1-reg {
+  /* "Sora"/H1/Regular */
+  font-family: "Sora";
+  font-size: 61px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 73.2px */
+  letter-spacing: -3.05px;
+  font-optical-sizing: auto;
+}
+.h2-reg {
+  /* "Sora"/H2/Regular */
+  font-family: "Sora";
+  font-size: 49px;
+  font-style: normal;
+  font-weight: 400;
+  font-optical-sizing: auto;
+  line-height: 120%; /* 58.8px */
+  letter-spacing: -2.45px;
+}
+.h3-reg {
+  /* "Sora"/H2/Regular */
+  font-family: "Sora";
+  font-size: 49px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  line-height: 120%; /* 58.8px */
+  letter-spacing: -2.45px;
+}
+.h4-reg {
+  /* "Sora"/H2/Regular */
+  font-family: "Sora";
+  font-size: 49px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  line-height: 120%; /* 58.8px */
+  letter-spacing: -2.45px;
+}
+.h5-reg {
+  /* "Sora"/H5/Regular */
+  font-family: "Sora";
+  font-size: 25px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  line-height: 120%; /* 30px */
+  letter-spacing: -1.25px;
+}
+.h6-reg {
+  /* "Sora"/H6/Regular */
+  font-family: "Sora";
+  font-size: 20px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  line-height: 120%; /* 24px */
+  letter-spacing: -1px;
+}
+.b1-reg {
+  /* Sora/Body1/Regular */
+  font-family: Sora;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 24px */
+  letter-spacing: -0.8px;
+}
+.b2-reg {
+  /* Sora/Body2/Regular */
+  font-family: Sora;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 15.6px */
+  letter-spacing: -0.65px;
+}
+.label-reg {
+  /* "Sora"/Label/Regular */
+  font-family: "Sora";
+  font-size: 10px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  line-height: 120%; /* 12px */
+  letter-spacing: -0.5px;
+}
+
+.h1-bold {
+  /* "Sora"/H1/Regular */
+  font-family: "Sora";
+  font-size: 61px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  line-height: 120%; /* 73.2px */
+  letter-spacing: -3.05px;
+}
+.h2-bold {
+  /* "Sora"/H2/Regular */
+  font-family: "Sora";
+  font-size: 49px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  line-height: 120%; /* 58.8px */
+  letter-spacing: -2.45px;
+}
+.h3-bold {
+  /* "Sora"/H2/Regular */
+  font-family: "Sora";
+  font-size: 49px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  line-height: 120%; /* 58.8px */
+  letter-spacing: -2.45px;
+}
+.h4-bold {
+  /* "Sora"/H2/Regular */
+  font-family: "Sora";
+  font-size: 49px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  line-height: 120%; /* 58.8px */
+  letter-spacing: -2.45px;
+}
+.h5-bold {
+  /* "Sora"/H5/Regular */
+  font-family: "Sora";
+  font-size: 25px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  line-height: 120%; /* 30px */
+  letter-spacing: -1.25px;
+}
+.h6-bold {
+  /* "Sora"/H6/Regular */
+  font-family: "Sora";
+  font-size: 20px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  line-height: 120%; /* 24px */
+  letter-spacing: -1px;
+}
+.b1-bold {
+  /* Sora/Body1/Regular */
+  font-family: Sora;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 24px */
+  letter-spacing: -0.8px;
+}
+.b2-bold {
+  /* Sora/Body2/Regular */
+  font-family: Sora;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 15.6px */
+  letter-spacing: -0.65px;
+}
+.label-bold {
+  /* "Sora"/Label/Regular */
+  font-family: "Sora";
+  font-size: 10px;
+  font-style: normal;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  line-height: 120%; /* 12px */
+  letter-spacing: -0.5px;
+}

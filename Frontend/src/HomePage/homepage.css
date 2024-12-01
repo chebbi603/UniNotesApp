@@ -1,0 +1,136 @@
+.test {
+  background-color: var(--Grey__950);
+  height: 2000px;
+}
+
+.landing-page {
+  padding: 120px 0px;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  gap: 64px;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-page__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 32px;
+  flex-direction: column;
+  height: 60vh;
+}
+
+/* Logo Styling */
+.landing-page__logo {
+  width: 200px;
+}
+
+/* Headline Styling */
+.landing-page__headline {
+  width: 600px;
+  line-height: 140%;
+  margin: 0;
+  color: var(--Grey__50); /* Default black */
+}
+
+.highlight-green {
+  background-color: var(--Primary__500);
+  padding: 0px 12px;
+  color: var(--Grey__950);
+}
+.highlight-yellow {
+  background-color: var(--Accent__500);
+  padding: 0px 12px;
+  color: var(--Primary__200);
+}
+
+.highlight-purple {
+  background-color: var(--Secondary__500);
+  padding: 0px 12px;
+  color: var(--Grey__950);
+}
+
+/* Subheading Styling */
+.landing-page__subheading {
+  color: var(--Grey__50);
+}
+
+/* CTA Button */
+.landing-page__cta {
+  background-color: var(--Secondary__500);
+  color: var(--Grey__950);
+  padding: 16px 32px;
+  border: none;
+  font-weight: 600;
+  border-radius: 200px;
+  cursor: pointer;
+  transition: 0.2s ease-out;
+}
+
+.landing-page__cta:hover {
+  background-color: var(--Secondary__350); /* Darker purple on hover */
+}
+
+/* Learn More Link */
+.landing-page__learn-more {
+  color: var(--Grey__500);
+  text-decoration: none;
+}
+
+.landing-page__learn-more:hover {
+  text-decoration: underline;
+}
+
+.landing-page__img1 {
+  position: absolute;
+  top: 25%;
+  right: 75%;
+}
+
+.landing-page__img2 {
+  position: absolute;
+  top: 10%;
+  left: 75%;
+}
+
+.purple-tag {
+  background-color: var(--Secondary__500);
+  color: var(--Grey__950);
+  width: fit-content;
+  padding: 4px 16px;
+  border-radius: 25px;
+  margin-top: 8px;
+}
+.green-tag {
+  background-color: var(--Primary__500);
+  color: var(--Grey__950);
+  width: fit-content;
+  padding: 4px 16px;
+  border-radius: 25px;
+  margin-top: 8px;
+}
+.yellow-tag {
+  background-color: var(--Accent__500);
+  color: var(--Primary__200);
+  width: fit-content;
+  padding: 4px 16px;
+  border-radius: 25px;
+  margin-top: 8px;
+}
+
+.landing-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 240px;
+}
+
+.landing-stats {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 0px;
+}
