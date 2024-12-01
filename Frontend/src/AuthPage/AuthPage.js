@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import img from "../assets/image3.png";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 function AuthPage({ authType }) {
   return authType == 1 ? (
@@ -36,10 +37,14 @@ function AuthPage({ authType }) {
               ></input>
             </div>
           </div>
-          <button className="auth-cta h6-bold">Log in</button>
-          <a href="#" className="auth-subbutton b1-bold">
-            Create an account instead
-          </a>
+          <NavLink to="/dashboard">
+            <button className="auth-cta h6-bold">Log in</button>
+          </NavLink>
+          <NavLink to="/register">
+            <a href="#" className="auth-subbutton b1-bold">
+              Create an account instead
+            </a>
+          </NavLink>
         </div>
         <img src={img} />
       </div>
@@ -97,10 +102,14 @@ function AuthPage({ authType }) {
               </div>
             </div>
           </div>
-          <button className="auth-cta h6-bold">Sign up</button>
-          <a href="#" className="auth-subbutton b1-bold">
-            Already have an account? Log in instead
-          </a>
+          <NavLink className="auth-link" to="/dashboard">
+            <button className="auth-cta h6-bold">Sign up</button>
+          </NavLink>
+          <NavLink to="/login">
+            <a href="#" className="auth-subbutton b1-bold">
+              Already have an account? Log in instead
+            </a>
+          </NavLink>
         </div>
         <img src={img} />
       </div>

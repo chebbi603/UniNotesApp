@@ -13,18 +13,11 @@ function Footer() {
             Fall 2024
           </p>
           <a
-            href="https://github.com/chebbi603/UnidebNotes-FrontEnd"
+            href="https://github.com/chebbi603/UniNotesApp"
             className="footer-link b1-bold"
             target="_blank"
           >
-            Github - Frontend
-          </a>
-          <a
-            href="https://github.com/chebbi603/UnidebNotes-BackEnd"
-            className="footer-link b1-bold"
-            target="_blank"
-          >
-            Github - Backend
+            Github
           </a>
           <a
             href="https://trello.com/invite/b/67082b76a0212ba2098df598/ATTI6b3df658e15c94f629809405c1ffc7541E941C75/unideb-notes-app-softeng-project"
