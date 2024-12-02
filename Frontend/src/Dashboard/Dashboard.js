@@ -89,6 +89,7 @@ function Dashboard() {
               name={"Networks Architecture & Protocols"}
               color={"#0BF445"}
             />
+            <CourseCard name={"Programming Languages 1"} color={"#3DA885"} />
           </div>
         </div>
         <div className="dashboard-recent-container">
