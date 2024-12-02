@@ -1,0 +1,55 @@
+.notecard-cover {
+  width: 200px;
+  height: 150px;
+  transition: 0.3s;
+  border-radius: 16px;
+}
+.notecard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 200px;
+}
+.notecard-text-container {
+  display: flex;
+  width: 200px;
+  flex-direction: column;
+  gap: 4px;
+}
+.notecard-text {
+  box-orient: vertical;
+  width: 200px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.notecard-cta {
+  background-color: #00000000;
+  color: var(--Secondary__500);
+  padding: 12px 24px;
+  border: 2px solid var(--Secondary__500);
+  border-radius: 200px;
+  cursor: pointer;
+  transition: 0.2s ease-out;
+}
+.notecard-cta:hover {
+  background-color: var(--Secondary__950);
+}
+
+.course-card {
+  background-color: aqua;
+  width: 320px;
+  height: 180px;
+  transition: 0.3s;
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.course-card:hover {
+  filter: brightness(90%);
+}
+.notecard-container:hover > .notecard-cover {
+  filter: brightness(90%);
+}

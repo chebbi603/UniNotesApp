@@ -175,3 +175,23 @@
   line-height: 120%; /* 12px */
   letter-spacing: -0.5px;
 }
+
+.primary {
+  color: var(--Primary__500);
+}
+
+.secondary {
+  color: var(--Secondary__500);
+}
+
+.accent {
+  color: var(--Accent__500);
+}
+
+.black {
+  color: var(--Grey__50);
+}
+
+.white {
+  color: var(--Grey__950);
+}

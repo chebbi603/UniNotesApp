@@ -55,7 +55,7 @@ function HomePage() {
 
   return (
     <>
-      <Navbar navCount={1} navButton={1} />
+      <Navbar navCount={1} navButton={1} isLoggedIn={0} />
       <div className="landing-page">
         <img className="landing-page__img1 " src={img1} />
         <div className="landing-page__content">

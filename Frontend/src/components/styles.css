@@ -17,6 +17,13 @@
   align-items: center;
   padding: 24px 24px;
 }
+.nav-container-max {
+  width: 1360px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px;
+}
 .navbar__logo {
   display: flex;
   align-items: center;
@@ -54,7 +61,6 @@
 .navbar__cta .navbar__button {
   background-color: var(--Secondary__500);
   color: var(--Grey__950);
-  width: 120px;
   padding: 12px 24px;
   border: none;
   border-radius: 200px;
@@ -112,4 +118,44 @@
 
 .footer-link:hover {
   text-decoration: underline;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--Grey__800);
+  transition: 0.5s;
+}
+
+.search-input {
+  border: none;
+  background-color: #00000000;
+  width: 20vw;
+  &:active,
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
+.nav-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+}
+.nav-button-icon {
+  color: var(--Grey__50);
+  &:hover {
+    color: var(--Secondary__500);
+  }
+}
+.nav-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50px;
 }

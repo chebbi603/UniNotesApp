@@ -8,6 +8,7 @@
 html,
 body {
   overflow-x: hidden;
+  background: var(--Grey__950, #f5f7f8);
 }
 * {
   margin: 0;

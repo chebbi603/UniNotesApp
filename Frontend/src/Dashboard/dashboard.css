@@ -1,0 +1,44 @@
+.main-container {
+  width: 100vw;
+  max-width: 1360px;
+  padding: 120px 24px;
+  padding-top: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  text-align: left;
+  gap: 64px;
+}
+.dashboard-welcome {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.dashboard-welcome-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 100px;
+}
+.dashboard-welcome-message {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: start;
+}
+.dashboard-recent-container {
+  display: flex;
+  flex-direction: column;
+}
+.dashboard-cardlist {
+  width: 100%;
+  display: flex;
+  gap: 24px;
+  padding: 24px 0px;
+  overflow: scroll;
+}
+.dashboard-section-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

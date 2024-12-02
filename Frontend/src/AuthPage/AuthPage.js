@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 function AuthPage({ authType }) {
   return authType == 1 ? (
     <div className="auth-page">
-      <Navbar navCount={0} navButton={0} />
+      <Navbar navCount={0} navButton={0} isLoggedIn={0} />
       <div className="auth-container">
         <div className="auth-content">
           <div className="auth-title">
