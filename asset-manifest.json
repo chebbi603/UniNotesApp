@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/UniNotesApp/static/css/main.0e01a964.css",
-    "main.js": "/UniNotesApp/static/js/main.fd9cc352.js",
+    "main.css": "/UniNotesApp/static/css/main.45b865e5.css",
+    "main.js": "/UniNotesApp/static/js/main.7f66823a.js",
     "static/js/453.85c1c64a.chunk.js": "/UniNotesApp/static/js/453.85c1c64a.chunk.js",
     "static/media/image.png": "/UniNotesApp/static/media/image.2ec677e2ea32e45b403e.png",
     "static/media/image3.png": "/UniNotesApp/static/media/image3.4aa41790d1f3bbc0f137.png",
@@ -10,12 +10,12 @@
     "static/media/logo-white.svg": "/UniNotesApp/static/media/logo-white.b568077ad6d36e39b26536afabb32514.svg",
     "static/media/logo.svg": "/UniNotesApp/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/UniNotesApp/index.html",
-    "main.0e01a964.css.map": "/UniNotesApp/static/css/main.0e01a964.css.map",
-    "main.fd9cc352.js.map": "/UniNotesApp/static/js/main.fd9cc352.js.map",
+    "main.45b865e5.css.map": "/UniNotesApp/static/css/main.45b865e5.css.map",
+    "main.7f66823a.js.map": "/UniNotesApp/static/js/main.7f66823a.js.map",
     "453.85c1c64a.chunk.js.map": "/UniNotesApp/static/js/453.85c1c64a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0e01a964.css",
-    "static/js/main.fd9cc352.js"
+    "static/css/main.45b865e5.css",
+    "static/js/main.7f66823a.js"
   ]
 }
