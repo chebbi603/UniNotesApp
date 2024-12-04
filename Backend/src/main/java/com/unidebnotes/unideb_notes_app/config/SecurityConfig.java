@@ -3,21 +3,22 @@ package com.unidebnotes.unideb_notes_app.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-////FOR UPDATE LATER ...MIGHT USE JWT
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/signup", "/api/users/verify").permitAll() // Allow public access
-                        .anyRequest().authenticated() // Require authentication for all other endpoints
+                .csrf().disable() // Disable CSRF for simplicity during development
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/api/users/register", "/api/users/verify","/api/users/login","/api/users/logout", "/h2-console/**").permitAll() // Allow these without authentication
+                        .anyRequest().authenticated() // Require authentication for everything else
                 )
-                .httpBasic(); // Enable basic authentication for other endpoints
+                .headers().frameOptions().disable(); // Disable frame options for H2 console access
 
         return http.build();
     }

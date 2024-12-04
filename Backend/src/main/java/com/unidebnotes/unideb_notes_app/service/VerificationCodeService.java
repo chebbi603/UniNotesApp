@@ -1,29 +1,39 @@
 package com.unidebnotes.unideb_notes_app.service;
 
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Random;
 
 @Service
 public class VerificationCodeService {
 
-    private final Map<String, String> verificationCodes = new HashMap<>();
+    private final JavaMailSender mailSender;
 
-    // Generate and store a verification code
-    public void generateCode(String email) {
-        String code = String.valueOf((int) (Math.random() * 9000) + 1000); // Generate a 4-digit code
-        verificationCodes.put(email, code);
-        sendEmail(email, code); // Simulate email sending
+    public VerificationCodeService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
 
-    // Validate the verification code
-    public boolean validateCode(String email, String code) {
-        return code.equals(verificationCodes.get(email));
+    // Generate a 6-digit verification code
+    public String generateVerificationCode() {
+        return String.format("%06d", new Random().nextInt(1000000));
     }
 
-    // Simulate email sending (replace with actual email logic)
-    private void sendEmail(String email, String code) {
-        System.out.println("Verification code sent to " + email + ": " + code);
+    // Send the verification code via email
+    public void sendVerificationEmail(String toEmail, String verificationCode) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("unidebnotesapp@gmail.com"); // This "From" will appear in the email
+        message.setTo(toEmail); // Recipient's email address
+        message.setSubject("Verification Code");
+        message.setText("Your verification code is: " + verificationCode);
+
+        mailSender.send(message);
+        System.out.println("Verification email sent to " + toEmail);
+    }
+
+    // Validate the entered code (basic example)
+    public boolean validateCode(String enteredCode, String actualCode) {
+        return enteredCode.equals(actualCode);
     }
 }

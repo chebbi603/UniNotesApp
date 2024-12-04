@@ -5,9 +5,17 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users", indexes = @Index(name = "idx_email", columnList = "email"))//map the user class to a database table
+@NoArgsConstructor//:Generates a no-argument constructor
+@AllArgsConstructor//:Generates a constructor with all fields as parameters.
+@Data //Automatically generates getters, setters, toString, equals, and hashCode methods
+@Builder //: Enables the builder pattern to construct objects (e.g., Person.builder().firstName("John").build()).
 
 public class User {
 
@@ -38,69 +46,9 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private Long major;
+    private String major;
 
     @Column(nullable = false)
     private boolean isActive = false;
 
-    public User() {
-    }
-
-    public User(Long id, String name, String email, String password, Long major, boolean isActive) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.major = major;
-        this.isActive = isActive;
-    }
-
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Long getMajor() {
-        return major;
-    }
-
-    public void setMajor(Long major) {
-        this.major = major;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 }
