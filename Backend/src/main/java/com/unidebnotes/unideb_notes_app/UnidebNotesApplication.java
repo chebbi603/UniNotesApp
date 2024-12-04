@@ -20,7 +20,7 @@ public class UnidebNotesApplication {
     CommandLineRunner testEmailSending(VerificationCodeService verificationCodeService) {
         return args -> {
             // Replace this with your test email address
-            String testEmail = "useremail@mailbox.unideb.hu";
+            String testEmail = "useremailreceivingcode@mailbox.unideb.hu";
             String verificationCode = verificationCodeService.generateVerificationCode();
 
             // Send the email
