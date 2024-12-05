@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Builder //: Enables the builder pattern to construct objects (e.g., Person.builder().firstName("John").build()).
 
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
