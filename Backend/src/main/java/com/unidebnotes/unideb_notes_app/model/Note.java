@@ -22,7 +22,7 @@ public class Note {
     private Long id;
 
     @Column(nullable = false)
-    private File file; // Path or URL to the uploaded file
+    private String filePath; // Path or URL to the uploaded file
 
     @Column(nullable = false)
     private String message; // A short message or description accompanying the note
