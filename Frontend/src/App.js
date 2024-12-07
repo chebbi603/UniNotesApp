@@ -21,6 +21,11 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<AuthPage authType={1} />} />
           <Route path="/register" element={<AuthPage authType={0} />} />
+          <Route path="/verify" element={<AuthPage authType={2} />} />
+          <Route
+            path="/verification-success"
+            element={<AuthPage authType={3} />}
+          />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/addnote" element={<AddNote />} />
         </Routes>

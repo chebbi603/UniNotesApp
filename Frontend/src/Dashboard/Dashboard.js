@@ -4,10 +4,55 @@ import Navbar from "../components/Navbar";
 import NoteCard from "./NoteCard/NoteCard";
 import CourseCard from "./CourseCard";
 import Footer from "../components/Footer";
+import { useState, useEffect } from "react";
+import gsap from "gsap";
+import { useLayoutEffect } from "react";
 
 function Dashboard() {
-  return (
-    <>
+  useLayoutEffect(() => {
+    gsap.fromTo(
+      ".dashboard",
+      {
+        x: 30,
+        opacity: 0,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.5,
+        ease: 1,
+      }
+    );
+
+    gsap.fromTo(
+      ".dashboard-recent-container",
+      {
+        opacity: 0,
+        x: 60,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        stagger: 0.5,
+        delay: 1,
+        duration: 0.5,
+        ease: 1,
+      }
+    );
+  }, []);
+
+  const [accessToken, setAccessToken] = useState("");
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      setAccessToken(accessToken);
+    }
+  }, []);
+
+  console.log(accessToken);
+  return accessToken !== "" ? (
+    <div className="dashboard">
       <Navbar isLoggedIn={1} navCount={1} />
       <div className="main-container">
         <div className="dashboard-welcome">
@@ -141,7 +186,9 @@ function Dashboard() {
         </div>
       </div>
       <Footer></Footer>
-    </>
+    </div>
+  ) : (
+    <h1> ERROR</h1>
   );
 }
 

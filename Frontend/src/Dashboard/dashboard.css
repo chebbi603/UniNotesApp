@@ -9,6 +9,14 @@
   text-align: left;
   gap: 64px;
 }
+.dashboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  text-align: left;
+}
 .dashboard-welcome {
   display: flex;
   gap: 16px;
