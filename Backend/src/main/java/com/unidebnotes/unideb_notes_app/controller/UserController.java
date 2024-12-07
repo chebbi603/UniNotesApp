@@ -22,7 +22,7 @@ public class UserController {
 
     // Registration Endpoint
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody User user) {
         try {
             userService.registerUser(user);
             return ResponseEntity.ok("User registered successfully! Please verify your email.");
@@ -33,7 +33,7 @@ public class UserController {
 
     // New: Email Verification Endpoint
     @PostMapping("/verify")
-    public ResponseEntity<String> verifyEmail(@RequestParam String email, @RequestParam String code) {
+    public ResponseEntity<String> verifyEmail(@Valid @RequestParam String email, @RequestParam String code) {
         try {
             userService.verifyEmail(email, code);
             return ResponseEntity.ok("Email verified successfully. You can now log in.");
@@ -44,7 +44,7 @@ public class UserController {
 
     // Login Endpoint
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<String> login(@Valid @RequestParam String email, @RequestParam String password) {
         try {
             String token = userService.loginUser(email, password);
             return ResponseEntity.ok(token);
@@ -55,7 +55,7 @@ public class UserController {
 
     // Logout Endpoint
     @PostMapping("/logout")
-    public ResponseEntity<String> logoutUser(@RequestParam String email) {
+    public ResponseEntity<String> logoutUser(@Valid @RequestParam String email) {
         try {
             userService.logoutUser(email);
             return ResponseEntity.ok("User logged out successfully");
