@@ -8,26 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
 class UserControllerTest {
-
-    @Autowired
-    private WebApplicationContext context;
 
     @Mock
     private UserService userService;
@@ -35,125 +21,143 @@ class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
-    private MockMvc mockMvc;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     @BeforeEach
-    void setup() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 
     @Test
-    void contextLoads() {
-        org.junit.jupiter.api.Assertions.assertNotNull(context);
-    }
-
-    @Test
-    void whenRegisterUser_thenReturnSuccess() throws Exception {
-        User user = new User();
+    void testRegisterUser_Success() {
+        // Arrange
+        User user = User.builder()
+                .name("John Doe")
+                .email("john.doe@mailbox.unideb.hu")
+                .password("Password@123")
+                .major("Computer Science")
+                .build();
 
         doNothing().when(userService).registerUser(user);
 
-        mockMvc.perform(post("/api/users/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isOk())
-                .andExpect(content().string("User registered successfully! Please verify your email."));
+        // Act
+        ResponseEntity<String> response = userController.registerUser(user);
+
+        // Assert
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("User registered successfully! Please verify your email.", response.getBody());
     }
 
     @Test
-    void whenRegisterUser_thenReturnBadRequest() throws Exception {
-        User user = new User();
+    void testRegisterUser_Failure() {
+        // Arrange
+        User user = User.builder()
+                .name("Invalid User")
+                .email("invalid.email")
+                .password("weak")
+                .major("Unknown")
+                .build();
 
-        doThrow(new IllegalArgumentException("Invalid user data")).when(userService).registerUser(user);
+        doThrow(new IllegalArgumentException("Invalid email format")).when(userService).registerUser(user);
 
-        mockMvc.perform(post("/api/users/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Invalid user data"));
+        // Act
+        ResponseEntity<String> response = userController.registerUser(user);
+
+        // Assert
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Invalid email format", response.getBody());
     }
 
     @Test
-    void whenVerifyEmail_thenReturnSuccess() throws Exception {
-        String email = "test@example.com";
+    void testVerifyEmail_Success() {
+        // Arrange
+        String email = "john.doe@mailbox.unideb.hu";
         String code = "123456";
 
         doNothing().when(userService).verifyEmail(email, code);
 
-        mockMvc.perform(post("/api/users/verify")
-                        .param("email", email)
-                        .param("code", code))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Email verified successfully. You can now log in."));
+        // Act
+        ResponseEntity<String> response = userController.verifyEmail(email, code);
+
+        // Assert
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("Email verified successfully. You can now log in.", response.getBody());
     }
 
     @Test
-    void whenVerifyEmail_thenReturnBadRequest() throws Exception {
-        String email = "test@example.com";
-        String code = "wrong_code";
+    void testVerifyEmail_Failure() {
+        // Arrange
+        String email = "invalid@mailbox.unideb.hu";
+        String code = "123456";
 
-        doThrow(new IllegalArgumentException("Invalid verification code")).when(userService).verifyEmail(email, code);
+        doThrow(new IllegalArgumentException("Verification failed")).when(userService).verifyEmail(email, code);
 
-        mockMvc.perform(post("/api/users/verify")
-                        .param("email", email)
-                        .param("code", code))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Invalid verification code"));
+        // Act
+        ResponseEntity<String> response = userController.verifyEmail(email, code);
+
+        // Assert
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("Verification failed", response.getBody());
     }
 
     @Test
-    void whenLogin_thenReturnSuccess() throws Exception {
-        String email = "test@example.com";
-        String password = "password";
-        String token = "token";
+    void testLogin_Success() {
+        // Arrange
+        String email = "john.doe@mailbox.unideb.hu";
+        String password = "Password@123";
+        String token = "sampleToken";
 
         when(userService.loginUser(email, password)).thenReturn(token);
 
-        mockMvc.perform(post("/api/users/login")
-                        .param("email", email)
-                        .param("password", password))
-                .andExpect(status().isOk())
-                .andExpect(content().string(token));
+        // Act
+        ResponseEntity<String> response = userController.login(email, password);
+
+        // Assert
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("sampleToken", response.getBody());
     }
 
     @Test
-    void whenLogin_thenReturnUnauthorized() throws Exception {
-        String email = "test@example.com";
-        String password = "wrong_password";
+    void testLogin_Failure() {
+        // Arrange
+        String email = "invalid@mailbox.unideb.hu";
+        String password = "wrongPassword";
 
         doThrow(new IllegalArgumentException("Invalid credentials")).when(userService).loginUser(email, password);
 
-        mockMvc.perform(post("/api/users/login")
-                        .param("email", email)
-                        .param("password", password))
-                .andExpect(status().isUnauthorized())
-                .andExpect(content().string("Invalid credentials"));
+        // Act
+        ResponseEntity<String> response = userController.login(email, password);
+
+        // Assert
+        assertEquals(401, response.getStatusCodeValue());
+        assertEquals("Invalid credentials", response.getBody());
     }
 
     @Test
-    void whenLogout_thenReturnSuccess() throws Exception {
-        String email = "test@example.com";
+    void testLogout_Success() {
+        // Arrange
+        String email = "john.doe@mailbox.unideb.hu";
 
         doNothing().when(userService).logoutUser(email);
 
-        mockMvc.perform(post("/api/users/logout")
-                        .param("email", email))
-                .andExpect(status().isOk())
-                .andExpect(content().string("User logged out successfully"));
+        // Act
+        ResponseEntity<String> response = userController.logoutUser(email);
+
+        // Assert
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals("User logged out successfully", response.getBody());
     }
 
     @Test
-    void whenLogout_thenReturnBadRequest() throws Exception {
-        String email = "test@example.com";
+    void testLogout_Failure() {
+        // Arrange
+        String email = "nonexistent@mailbox.unideb.hu";
 
-        doThrow(new IllegalArgumentException("Logout error")).when(userService).logoutUser(email);
+        doThrow(new IllegalArgumentException("User not found")).when(userService).logoutUser(email);
 
-        mockMvc.perform(post("/api/users/logout")
-                        .param("email", email))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Logout error"));
+        // Act
+        ResponseEntity<String> response = userController.logoutUser(email);
+
+        // Assert
+        assertEquals(400, response.getStatusCodeValue());
+        assertEquals("User not found", response.getBody());
     }
 }
