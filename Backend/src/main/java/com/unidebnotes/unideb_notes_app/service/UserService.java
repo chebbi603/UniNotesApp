@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.UUID;
@@ -103,4 +104,18 @@ public class UserService {
     private String hashPassword(String password) {
         return passwordEncoder.encode(password);
     }
+
+    public boolean isTokenValid(String token) {
+        return sessionTokens.containsValue(token);
+    }
+
+    public Long getUserIdFromToken(String token) {
+        for (Map.Entry<String, String> entry : sessionTokens.entrySet()) {
+            if (entry.getValue().equals(token)) {
+                return userRepository.findByEmail(entry.getKey()).get().getId();
+            }
+        }
+        throw new IllegalArgumentException("Invalid Token");
+    }
+
 }

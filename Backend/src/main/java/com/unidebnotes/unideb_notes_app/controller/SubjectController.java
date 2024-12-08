@@ -2,6 +2,7 @@ package com.unidebnotes.unideb_notes_app.controller;
 
 import com.unidebnotes.unideb_notes_app.model.Subject;
 import com.unidebnotes.unideb_notes_app.service.SubjectService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class SubjectController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createSubject(@RequestBody Subject subject) {
+    public ResponseEntity<String> createSubject(@Valid @RequestBody Subject subject) {
         subjectService.createSubject(subject); // Call the service to save the subject
         return ResponseEntity.status(HttpStatus.CREATED).body("Subject added successfully");
     }

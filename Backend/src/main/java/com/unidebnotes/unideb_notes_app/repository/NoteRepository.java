@@ -9,4 +9,9 @@ import java.util.List;
 public interface NoteRepository extends JpaRepository<Note, Long> {
     // You can add custom query methods if needed
     List<Note> findAllBySubjectId(Long subjectId);
+    boolean existsByFilePath(String filePath);
+
+    // Custom query to find notes by userId
+    List<Note> findAllByAuthorId(Long authorId);
+
 }
