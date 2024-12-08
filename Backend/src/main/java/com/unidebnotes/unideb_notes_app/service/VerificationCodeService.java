@@ -32,6 +32,19 @@ public class VerificationCodeService {
         System.out.println("Verification email sent to " + toEmail);
     }
 
+    public void sendVerificationEmail(String toEmail, String verificationCode, String activationLink) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("unidebnotesapp@gmail.com");
+        message.setTo(toEmail);
+        message.setSubject("Account Activation");
+        message.setText("Your verification code is: " + verificationCode +
+                "\nAlternatively, click this link to activate your account: " + activationLink);
+
+        mailSender.send(message);
+        System.out.println("Verification email sent to " + toEmail);
+    }
+
+
     // Validate the entered code (basic example)
     public boolean validateCode(String enteredCode, String actualCode) {
         return enteredCode.equals(actualCode);
