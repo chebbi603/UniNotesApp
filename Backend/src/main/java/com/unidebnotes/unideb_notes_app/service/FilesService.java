@@ -21,7 +21,7 @@ public class FilesService {
     @Autowired
     private FileRepository fileRepository;
 
-    private final String FILE_PATH = "C:\\Users\\rayha\\IdeaProjects\\Software\\Backend\\uploads\\";
+    private final String FILE_PATH = "\\Users\\chebbimedayoub\\Documents\\WebApps\\UnidebNotesBack\\UniNotesApp\\Backend\\uploads\\";
 
     public String storeFile(MultipartFile file) throws IOException {
         Files files = Files
@@ -60,7 +60,7 @@ public class FilesService {
         file.transferTo(new File(filePath));
 
         if (files.getId() != null) {
-            return "File uploaded successfuly into database";
+            return "File uploaded successfully into database";
         }
 
         return null;

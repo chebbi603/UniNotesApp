@@ -25,6 +25,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/notes")
+@CrossOrigin(origins = "http://localhost:3000")
 public class NoteController {
 
     @Autowired
@@ -50,7 +51,6 @@ public class NoteController {
 
         // Save the file to the server
         String fileName = saveFile(file);
-
         // Create the Note object and set filePath
         Note note = noteService.createNote(title, message, fileName, subjectId, userId, isPublic);
 
@@ -78,6 +78,12 @@ public class NoteController {
         return noteService.getNotesBySubjectId(subjectId);
     }
 
+
+    @GetMapping("/search/{keyword}")
+    public List<Note> getNotesBySearch(@PathVariable String keyword) {
+        return noteService.searchNotes(keyword);
+    }
+
     /*// Delete a note by ID
     @DeleteMapping("/{noteId}")
     public ResponseEntity<String> deleteNote(@PathVariable Long noteId) {
@@ -85,9 +91,8 @@ public class NoteController {
         return ResponseEntity.ok("Note deleted successfully");
     }*/
 
-    @GetMapping("/user/notes")
-    public ResponseEntity<List<Note>> getNotesForUser(HttpServletRequest request) {
-        Long userId = (Long) request.getAttribute("userId");
+    @GetMapping("/{userId}/notes")
+    public ResponseEntity<List<Note>> getNotesForUser(@PathVariable Long userId) {
         List<Note> notes = noteService.getNotesByUserId(userId);
         return ResponseEntity.ok(notes);
     }
@@ -128,25 +133,41 @@ public class NoteController {
         return ResponseEntity.ok("Note deleted successfully");
     }
 
-    /*@GetMapping("/{id}/download")
-    public ResponseEntity<?> downloadFile(@PathVariable Long id) {
-        String filePath = noteService.getFilePathByNoteId(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Note> viewNote(@PathVariable Long id) {
+        Optional<Note> noteOptional = noteService.getNoteById(id);
+        if (noteOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Note note = noteOptional.get();
+        return ResponseEntity.ok(note);
+    }
+
+    @GetMapping("/{id}/view")
+    public ResponseEntity<?> viewFile(@PathVariable Long id) {
+        Optional<Note> noteOptional = noteService.getNoteById(id);
+        if (noteOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Note not found");
+        }
+        Note note = noteOptional.get();
+        String filePath = note.getFilePath();
         if (filePath == null) {
             return ResponseEntity.notFound().build();
         }
 
         try {
-            Path path = Paths.get(filePath);
-            if (Files.exists(path)) {
+            File file = new File(filePath);
+            if (Files.exists(file.toPath())) {
                 return ResponseEntity.ok()
-                        .header("Content-Disposition", "attachment; filename=\"" + path.getFileName().toString() + "\"")
-                        .body(Files.readAllBytes(path));
+                        .header("Content-Disposition", "attachment; filename=" + file.getName())
+                        .contentType(MediaType.APPLICATION_PDF)
+                        .body(Files.readAllBytes(file.toPath()));
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Could not read file.");
         }
-    }*/
+    }
 
 }

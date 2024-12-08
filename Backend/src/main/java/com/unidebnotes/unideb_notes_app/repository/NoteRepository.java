@@ -12,6 +12,7 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     boolean existsByFilePath(String filePath);
 
     // Custom query to find notes by userId
-    List<Note> findAllByAuthorId(Long authorId);
+    List<Note> findByAuthorId(Long userId);
+    List<Note> findByTitleContainingIgnoreCase(String keyword);
 
 }

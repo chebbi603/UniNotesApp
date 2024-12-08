@@ -45,8 +45,7 @@ public class NoteService {
         note.setFilePath(filePath);  // Store the file path in the note
         note.setSubject(subjectOptional.get()); // Set the subject fetched from the database
         note.setAuthor(userOptional.get()); // Set the author fetched from the database
-        note.setPublic(isPublic); // Set the visibility of the note
-
+        note.setPublic(isPublic);
         return noteRepository.save(note); // Save the note in the database
 
     }
@@ -75,11 +74,15 @@ public class NoteService {
         }
     }
     public List<Note> getNotesByUserId(Long userId) {
-        return noteRepository.findAllByAuthorId(userId);
+        return noteRepository.findByAuthorId(userId);
     }
 
     public Optional<Note> getNoteById(Long noteId) {
         return noteRepository.findById(noteId);
+    }
+
+    public List<Note> searchNotes(String keyword) {
+        return noteRepository.findByTitleContainingIgnoreCase(keyword);
     }
 
 }

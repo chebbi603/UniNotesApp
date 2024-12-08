@@ -47,6 +47,19 @@ public class UserService {
         verificationCodeService.sendVerificationEmail(user.getEmail(), code);
     }
 
+    // Return User
+    public User getUserByEmail (String email) {
+        if (!sessionTokens.containsKey(email)) {
+            throw new IllegalArgumentException("User is not logged in");
+        }
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+        return user.get();
+    }
+
+
     // Verify Email
     public void verifyEmail(String email, String enteredCode) {
         Optional<User> userOptional = userRepository.findByEmail(email);

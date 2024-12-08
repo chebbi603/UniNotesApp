@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class UserController {
 
     private final UserService userService;
@@ -20,12 +21,24 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<User> getUserData(@Valid @RequestParam String email) {
+        try{
+            User user = userService.getUserByEmail(email);
+            return ResponseEntity.ok(user);
+        }
+        catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     // Registration Endpoint
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody User user) {
         try {
             userService.registerUser(user);
-            return ResponseEntity.ok("User registered successfully! Please verify your email.");
+            return ResponseEntity.ok("email : User registered successfully! Please verify your email.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

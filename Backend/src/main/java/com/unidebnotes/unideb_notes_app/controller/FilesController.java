@@ -23,7 +23,8 @@ import com.unidebnotes.unideb_notes_app.service.FilesService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+
+@CrossOrigin(origins = "http://localhost:3000")
 public class FilesController {
 
     private static final Logger log = LoggerFactory.getLogger(FilesService.class);
@@ -46,7 +47,7 @@ public class FilesController {
     public ResponseEntity<byte[]> getImage(@PathVariable String fileName) {
         byte[] imageData = filesService.getFiles(fileName);
 
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("application/pdf")).body(imageData);
     }
 
     @GetMapping("/files")
@@ -67,7 +68,7 @@ public class FilesController {
     public ResponseEntity<byte[]> downloadImageFromFileSystem(@PathVariable String fileName) {
         byte[] imageData = filesService.getFiles(fileName);
 
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("application/pdf")).body(imageData);
     }
 
 }

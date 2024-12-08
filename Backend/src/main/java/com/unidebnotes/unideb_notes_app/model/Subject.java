@@ -1,6 +1,7 @@
 package com.unidebnotes.unideb_notes_app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,9 @@ public class Subject {
 
     @Column(nullable = false)
     private String major; // Major associated with the subject
+
+    public Subject(@Valid String name, @Valid String major) {
+        this.name = name;
+        this.major = major;
+    }
 }
