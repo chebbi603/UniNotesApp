@@ -31,6 +31,8 @@ public class UserController {
         }
     }
 
+
+    //METHOD FOR ACCOUNT ACTIVATION VIA CODE ONLY
     // New: Email Verification Endpoint
     @PostMapping("/verify")
     public ResponseEntity<String> verifyEmail(@Valid @RequestParam String email, @RequestParam String code) {
@@ -41,6 +43,21 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+
+    //NEW METHOD FOR ACCOUNT ACTIVATION VIA LINK
+    @GetMapping("/activate")
+    public ResponseEntity<String> activateUserViaLink(
+            @RequestParam String email,
+            @RequestParam String code) {
+        try {
+            userService.activateUserViaLink(email, code);
+            return ResponseEntity.ok("Account activated successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 
     // Login Endpoint
     @PostMapping("/login")
