@@ -16,15 +16,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
-                .headers(httpSecurityHeadersConfigurer -> {
-                    httpSecurityHeadersConfigurer.frameOptions(frameOptionsConfig -> {
-                        frameOptionsConfig.disable();
-                    });
-                })
+                .cors(cors -> {}) // Enable CORS
+                .csrf(csrf -> csrf.disable()) // Disable CSRF if needed
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // Allow all requests without authentication
-                );
+                        .anyRequest().permitAll()
+                )
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
         return http.build();
     }
 

@@ -17,8 +17,12 @@ public class SubjectService {
         return subjectRepository.findAll();
     }
 
-    public Subject getSubjectByName(String name) {
-        return subjectRepository.findByName(name);
+    public Subject getSubjectById(Long id) {
+        return subjectRepository.findSubjectById(id);
+    }
+
+    public List<Subject> getSubjectsByMajorId(String majorId) {
+        return subjectRepository.findByMajor(majorId);
     }
 
     public Subject createSubject(Subject subject) {

@@ -41,27 +41,25 @@ public class UserService {
         user.setActive(false);
         userRepository.save(user);
 
-       /* // Generate and send verification code
+        // Generate and send verification code
         String code = verificationCodeService.generateVerificationCode();
         verificationCodes.put(user.getEmail(), code);
-        verificationCodeService.sendVerificationEmail(user.getEmail(), code);*/
-
-        // Generate verification code and activation link
-        String code = verificationCodeService.generateVerificationCode();
-        verificationCodes.put(user.getEmail(), code);
-
-        // Assume baseURL is dynamically determined or hardcoded for now
-        String baseURL = "http://localhost:8080"; // Replace with IP or cloud URL if necessary
-        // Construct the activation link
-        String activationLink = baseURL + "/api/users/activate?email=" + user.getEmail() + "&code=" + code;
-
-        verificationCodeService.sendVerificationEmail(user.getEmail(), code, activationLink);
-
-        // Schedule deletion after 24 hours if not activated
-        scheduleUserDeletion(user.getEmail());
+        verificationCodeService.sendVerificationEmail(user.getEmail(), code);
     }
 
-    //FOR ACTIVATION VIA CODE
+    // Return User
+    public User getUserByEmail (String email) {
+        if (!sessionTokens.containsKey(email)) {
+            throw new IllegalArgumentException("User is not logged in");
+        }
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+        return user.get();
+    }
+
+
     // Verify Email
     public void verifyEmail(String email, String enteredCode) {
         Optional<User> userOptional = userRepository.findByEmail(email);
@@ -82,27 +80,6 @@ public class UserService {
         // Remove the verification code after successful activation
         verificationCodes.remove(email);
     }
-
-    public void activateUserViaLink(String email, String code) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isEmpty()) {
-            throw new IllegalArgumentException("Invalid email address");
-        }
-
-        String actualCode = verificationCodes.get(email);
-        if (actualCode == null || !verificationCodeService.validateCode(code, actualCode)) {
-            throw new IllegalArgumentException("Invalid or expired activation link.");
-        }
-
-        // Activate user
-        User user = userOptional.get();
-        user.setActive(true);
-        userRepository.save(user);
-
-        // Remove the verification code
-        verificationCodes.remove(email);
-    }
-
 
     // Login User
     public String loginUser(String email, String password) {
@@ -152,56 +129,6 @@ public class UserService {
             }
         }
         throw new IllegalArgumentException("Invalid Token");
-    }
-
-    // Request Password Reset
-    public void requestPasswordReset(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isEmpty()) {
-            throw new IllegalArgumentException("Email not found");
-        }
-
-        // Generate and send a verification code
-        String code = verificationCodeService.generateVerificationCode();
-        verificationCodes.put(email, code);
-        verificationCodeService.sendVerificationEmail(email, code);
-    }
-
-    public void validateAndResetPassword(String email, String enteredCode, String newPassword) {
-        // Validate the reset code
-        String actualCode = verificationCodes.get(email);
-        if (actualCode == null || !enteredCode.equals(actualCode)) {
-            throw new IllegalArgumentException("Invalid or expired verification code.");
-        }
-
-        // Proceed to reset the password after successful validation
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isEmpty()) {
-            throw new IllegalArgumentException("Email not found.");
-        }
-
-        User user = userOptional.get();
-        user.setPassword(hashPassword(newPassword));
-        userRepository.save(user);
-
-        // Clear the code to ensure one-time use
-        verificationCodes.remove(email);
-    }
-
-    private void scheduleUserDeletion(String email) {
-        new Thread(() -> {
-            try {
-                Thread.sleep(24 * 60 * 60 * 1000); // Wait for 24 hours
-                Optional<User> userOptional = userRepository.findByEmail(email);
-                if (userOptional.isPresent() && !userOptional.get().isActive()) {
-                    userRepository.delete(userOptional.get());
-                    verificationCodes.remove(email);
-                    System.out.println("Inactive user deleted: " + email);
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }).start();
     }
 
 }

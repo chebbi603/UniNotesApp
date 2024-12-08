@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users", indexes = @Index(name = "idx_email", columnList = "email"))//map the user class to a database table
+@Table(name = "USERS", indexes = @Index(name = "idx_email", columnList = "email"))//map the user class to a database table
 @NoArgsConstructor//:Generates a no-argument constructor
 @AllArgsConstructor//:Generates a constructor with all fields as parameters.
 @Data //Automatically generates getters, setters, toString, equals, and hashCode methods

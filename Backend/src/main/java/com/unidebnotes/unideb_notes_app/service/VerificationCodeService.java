@@ -25,7 +25,7 @@ public class VerificationCodeService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("unidebnotesapp@gmail.com"); // This "From" will appear in the email
         message.setTo(toEmail); // Recipient's email address
-        message.setSubject("Verification Code");
+        message.setSubject("Unideb Notes Verification Code");
         message.setText("Your verification code is: " + verificationCode);
 
         mailSender.send(message);

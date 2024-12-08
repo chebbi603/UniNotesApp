@@ -1,5 +1,7 @@
 package com.unidebnotes.unideb_notes_app;
 
+import com.unidebnotes.unideb_notes_app.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.unidebnotes.unideb_notes_app.service.VerificationCodeService;
