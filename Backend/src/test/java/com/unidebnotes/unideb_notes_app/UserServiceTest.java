@@ -33,7 +33,6 @@ public class UserServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        // Initialize mock user
         mockUser = new User();
         mockUser.setId(1L);
         mockUser.setEmail("testuser@example.com");
@@ -43,10 +42,7 @@ public class UserServiceTest {
 
     @Test
     public void testRegisterUser_EmailAlreadyExists() {
-        // Arrange
         when(userRepository.existsByEmail(mockUser.getEmail())).thenReturn(true);
-
-        // Act and Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.registerUser(mockUser);
         });
@@ -57,15 +53,11 @@ public class UserServiceTest {
 
     @Test
     public void testRegisterUser_Success() {
-        // Arrange
         when(userRepository.existsByEmail(mockUser.getEmail())).thenReturn(false);
         when(userRepository.save(mockUser)).thenReturn(mockUser);
         when(verificationCodeService.generateVerificationCode()).thenReturn("123456");
 
-        // Act
         userService.registerUser(mockUser);
-
-        // Assert
         verify(userRepository, times(1)).save(mockUser);
         verify(verificationCodeService, times(1)).generateVerificationCode();
         verify(verificationCodeService, times(1)).sendVerificationEmail(anyString(), eq("123456"), anyString());
@@ -73,10 +65,7 @@ public class UserServiceTest {
 
     @Test
     public void testLoginUser_InvalidEmail() {
-        // Arrange
         when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.empty());
-
-        // Act and Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.loginUser(mockUser.getEmail(), "password");
         });
@@ -86,10 +75,7 @@ public class UserServiceTest {
 
     @Test
     public void testLoginUser_AccountNotActivated() {
-        // Arrange
         when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.of(mockUser));
-
-        // Act and Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.loginUser(mockUser.getEmail(), "password");
         });
@@ -99,29 +85,22 @@ public class UserServiceTest {
 
     @Test
     public void testLoginUser_Success() {
-        // Arrange
+
         when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.of(mockUser));
         when(verificationCodeService.matches(anyString(), eq(mockUser.getPassword()))).thenReturn(true);
 
-        // Act
         String token = userService.loginUser(mockUser.getEmail(), "password");
-
-        // Assert
         assertNotNull(token);
-        assertTrue(token.length() > 0);  // Token is generated
+        assertTrue(token.length() > 0);
     }
 
     @Test
     public void testLogoutUser_Success() {
-        // Arrange
         when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.of(mockUser));
         String sessionToken = UUID.randomUUID().toString();
         userService.loginUser(mockUser.getEmail(), "password");
-
-        // Act
         userService.logoutUser(mockUser.getEmail());
 
-        // Assert
         assertThrows(IllegalArgumentException.class, () -> {
             userService.logoutUser(mockUser.getEmail());
         });
@@ -129,10 +108,8 @@ public class UserServiceTest {
 
     @Test
     public void testActivateUserViaLink_InvalidEmail() {
-        // Arrange
-        when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.empty());
 
-        // Act and Assert
+        when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.empty());
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.activateUserViaLink(mockUser.getEmail(), "code");
         });
@@ -142,24 +119,19 @@ public class UserServiceTest {
 
     @Test
     public void testActivateUserViaLink_Success() {
-        // Arrange
+
         when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.of(mockUser));
         when(verificationCodeService.validateCode(anyString(), eq("123456"))).thenReturn(true);
 
-        // Act
         userService.activateUserViaLink(mockUser.getEmail(), "123456");
-
-        // Assert
         assertTrue(mockUser.isActive());
         verify(userRepository, times(1)).save(mockUser);
     }
 
     @Test
     public void testRequestPasswordReset_EmailNotFound() {
-        // Arrange
-        when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.empty());
 
-        // Act and Assert
+        when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.empty());
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             userService.requestPasswordReset(mockUser.getEmail());
         });
@@ -169,14 +141,11 @@ public class UserServiceTest {
 
     @Test
     public void testValidateAndResetPassword_Success() {
-        // Arrange
+
         when(userRepository.findByEmail(mockUser.getEmail())).thenReturn(Optional.of(mockUser));
         when(verificationCodeService.validateCode(anyString(), eq("123456"))).thenReturn(true);
-
-        // Act
         userService.validateAndResetPassword(mockUser.getEmail(), "123456", "newPassword");
 
-        // Assert
         verify(userRepository, times(1)).save(mockUser);
         assertEquals("newPassword", mockUser.getPassword());
     }

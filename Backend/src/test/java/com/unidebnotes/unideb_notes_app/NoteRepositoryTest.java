@@ -37,7 +37,6 @@ public class NoteRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        // Setup subject and user for note creation
         subject = Subject.builder()
                 .name("Math")
                 .major("Engineering")
@@ -51,7 +50,6 @@ public class NoteRepositoryTest {
                 .build();
         userRepository.save(user);
 
-        // Create and save notes
         note1 = Note.builder()
                 .subject(subject)
                 .filePath("/uploads/note1.pdf")
@@ -81,7 +79,7 @@ public class NoteRepositoryTest {
         List<Note> notes = noteRepository.findAllBySubjectId(subject.getId());
 
         assertNotNull(notes);
-        assertEquals(2, notes.size()); // There should be two notes associated with the subject "Math"
+        assertEquals(2, notes.size());
         assertTrue(notes.contains(note1));
         assertTrue(notes.contains(note2));
     }
@@ -90,22 +88,22 @@ public class NoteRepositoryTest {
     void testExistsByFilePath() {
         boolean exists = noteRepository.existsByFilePath("/uploads/note1.pdf");
 
-        assertTrue(exists); // The file path "/uploads/note1.pdf" should exist
+        assertTrue(exists);
     }
 
     @Test
     void testExistsByFilePathNotFound() {
         boolean exists = noteRepository.existsByFilePath("/uploads/non_existent.pdf");
 
-        assertFalse(exists); // The file path "/uploads/non_existent.pdf" should not exist
+        assertFalse(exists);
     }
 
     @Test
     void testFindAllByAuthorId() {
-        List<Note> notes = noteRepository.findAllByAuthorId(user.getId());
+        List<Note> notes = noteRepository.findByAuthorId(user.getId());
 
         assertNotNull(notes);
-        assertEquals(2, notes.size()); // There should be two notes authored by "john_doe"
+        assertEquals(2, notes.size());
         assertTrue(notes.contains(note1));
         assertTrue(notes.contains(note2));
     }
@@ -119,9 +117,9 @@ public class NoteRepositoryTest {
                 .build();
         userRepository.save(anotherUser);
 
-        List<Note> notes = noteRepository.findAllByAuthorId(anotherUser.getId());
+        List<Note> notes = noteRepository.findByAuthorId(anotherUser.getId());
 
         assertNotNull(notes);
-        assertTrue(notes.isEmpty()); // No notes should be found for "jane_doe"
+        assertTrue(notes.isEmpty());
     }
 }

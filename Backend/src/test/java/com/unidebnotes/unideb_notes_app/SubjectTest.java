@@ -12,7 +12,6 @@ class SubjectTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize the Subject object before each test
         subject = new Subject();
     }
 

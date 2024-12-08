@@ -58,15 +58,13 @@ public class NoteServiceTest {
 
     @Test
     public void testCreateNote() {
-        // Arrange
+
         when(subjectRepository.findById(1L)).thenReturn(Optional.of(mockSubject));
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
         when(noteRepository.save(any(Note.class))).thenReturn(mockNote);
 
-        // Act
         Note createdNote = noteService.createNote("Note Title", "Note Message", "path/to/file", 1L, 1L, true);
 
-        // Assert
         assertNotNull(createdNote);
         assertEquals("Note Title", createdNote.getTitle());
         assertEquals("Note Message", createdNote.getMessage());
@@ -76,11 +74,10 @@ public class NoteServiceTest {
 
     @Test
     public void testCreateNote_SubjectNotFound() {
-        // Arrange
+
         when(subjectRepository.findById(1L)).thenReturn(Optional.empty());
         when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
 
-        // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             noteService.createNote("Note Title", "Note Message", "path/to/file", 1L, 1L, true);
         });
@@ -89,11 +86,10 @@ public class NoteServiceTest {
 
     @Test
     public void testCreateNote_UserNotFound() {
-        // Arrange
+
         when(subjectRepository.findById(1L)).thenReturn(Optional.of(mockSubject));
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             noteService.createNote("Note Title", "Note Message", "path/to/file", 1L, 1L, true);
         });
@@ -102,13 +98,11 @@ public class NoteServiceTest {
 
     @Test
     public void testGetNotesBySubjectId() {
-        // Arrange
+
         when(noteRepository.findAllBySubjectId(1L)).thenReturn(List.of(mockNote));
 
-        // Act
         List<Note> notes = noteService.getNotesBySubjectId(1L);
 
-        // Assert
         assertNotNull(notes);
         assertEquals(1, notes.size());
         assertEquals("Note Title", notes.get(0).getTitle());
@@ -117,58 +111,50 @@ public class NoteServiceTest {
 
     @Test
     public void testGetNotesByUserId() {
-        // Arrange
-        when(noteRepository.findAllByAuthorId(1L)).thenReturn(List.of(mockNote));
 
-        // Act
+        when(noteRepository.findByAuthorId(1L)).thenReturn(List.of(mockNote));
+
         List<Note> notes = noteService.getNotesByUserId(1L);
 
-        // Assert
         assertNotNull(notes);
         assertEquals(1, notes.size());
         assertEquals("Note Title", notes.get(0).getTitle());
-        verify(noteRepository, times(1)).findAllByAuthorId(1L);
+        verify(noteRepository, times(1)).findByAuthorId(1L);
     }
 
     @Test
     public void testDeleteNoteById() {
-        // Arrange
-        when(noteRepository.findById(1L)).thenReturn(Optional.of(mockNote));
-        when(noteRepository.existsByFilePath("path/to/file")).thenReturn(false);  // Simulate file not being used by other notes
 
-        // Act
+        when(noteRepository.findById(1L)).thenReturn(Optional.of(mockNote));
+        when(noteRepository.existsByFilePath("path/to/file")).thenReturn(false);
+
         noteService.deleteNoteById(1L);
 
-        // Assert
         verify(noteRepository, times(1)).delete(mockNote);
         File file = new File("path/to/file");
-        assertTrue(file.exists()); // Check if the file was deleted, you may want to mock the File class or its behavior
+        assertTrue(file.exists());
     }
 
     @Test
     public void testDeleteNoteById_FileStillReferenced() {
         // Arrange
         when(noteRepository.findById(1L)).thenReturn(Optional.of(mockNote));
-        when(noteRepository.existsByFilePath("path/to/file")).thenReturn(true);  // Simulate file still being referenced by other notes
+        when(noteRepository.existsByFilePath("path/to/file")).thenReturn(true);
 
-        // Act
         noteService.deleteNoteById(1L);
 
-        // Assert
         verify(noteRepository, times(1)).delete(mockNote);
         File file = new File("path/to/file");
-        assertFalse(file.exists()); // Check if the file was not deleted
+        assertFalse(file.exists());
     }
 
     @Test
     public void testGetNoteById() {
-        // Arrange
+
         when(noteRepository.findById(1L)).thenReturn(Optional.of(mockNote));
 
-        // Act
         Optional<Note> note = noteService.getNoteById(1L);
 
-        // Assert
         assertTrue(note.isPresent());
         assertEquals("Note Title", note.get().getTitle());
         verify(noteRepository, times(1)).findById(1L);

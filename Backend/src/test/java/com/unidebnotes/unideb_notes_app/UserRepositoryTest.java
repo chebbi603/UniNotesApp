@@ -26,34 +26,25 @@ public class UserRepositoryTest {
         testUser = new User();
         testUser.setEmail("test@example.com");
         testUser.setPassword("password123");
-        userRepository.save(testUser); // Save the user to the repository
+        userRepository.save(testUser);
     }
 
     @Test
     public void testExistsByEmail() {
-        // Act
         boolean exists = userRepository.existsByEmail("test@example.com");
-
-        // Assert
         assertTrue(exists);
     }
 
     @Test
     public void testFindByEmail() {
-        // Act
         Optional<User> foundUser = userRepository.findByEmail("test@example.com");
-
-        // Assert
         assertTrue(foundUser.isPresent());
         assertEquals("test@example.com", foundUser.get().getEmail());
     }
 
     @Test
     public void testFindByEmail_NotFound() {
-        // Act
         Optional<User> foundUser = userRepository.findByEmail("nonexistent@example.com");
-
-        // Assert
         assertFalse(foundUser.isPresent());
     }
 }

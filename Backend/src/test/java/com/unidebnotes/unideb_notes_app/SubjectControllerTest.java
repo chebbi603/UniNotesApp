@@ -40,13 +40,11 @@ class SubjectControllerTest {
 
     @Test
     void testGetAllSubjects() {
-        // Arrange
+
         when(subjectService.getAllSubjects()).thenReturn(Collections.singletonList(subject));
 
-        // Act
         ResponseEntity<List<Subject>> response = subjectController.getAllSubjects();
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
@@ -57,13 +55,11 @@ class SubjectControllerTest {
 
     @Test
     void testCreateSubject() {
-        // Arrange
+
         when(subjectService.createSubject(any(Subject.class))).thenReturn(subject);
 
-        // Act
         ResponseEntity<String> response = subjectController.createSubject(subject);
 
-        // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("Subject added successfully", response.getBody());
 
@@ -72,13 +68,11 @@ class SubjectControllerTest {
 
     @Test
     void testGetSubjectByName_found() {
-        // Arrange
+
         when(subjectService.getSubjectByName("Mathematics")).thenReturn(subject);
 
-        // Act
         ResponseEntity<Subject> response = subjectController.getSubjectByName("Mathematics");
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("Mathematics", response.getBody().getName());
@@ -88,13 +82,11 @@ class SubjectControllerTest {
 
     @Test
     void testGetSubjectByName_notFound() {
-        // Arrange
+
         when(subjectService.getSubjectByName("Physics")).thenReturn(null);
 
-        // Act
         ResponseEntity<Subject> response = subjectController.getSubjectByName("Physics");
 
-        // Assert
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNull(response.getBody());
 

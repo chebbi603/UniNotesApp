@@ -34,16 +34,14 @@ class FilesControllerTest {
 
     @Test
     void testStoreFilesIntoDB_success() throws IOException {
-        // Arrange
+
         MockMultipartFile file = new MockMultipartFile("file", "testFile.txt", "text/plain", "Test content".getBytes());
         String expectedResponse = "File uploaded successfully into database";
 
         when(filesService.storeFile(file)).thenReturn(expectedResponse);
 
-        // Act
         ResponseEntity<String> response = filesController.storeFilesIntoDB(file);
 
-        // Assert
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(expectedResponse, response.getBody());
@@ -52,16 +50,14 @@ class FilesControllerTest {
 
     @Test
     void testGetImage_success() {
-        // Arrange
+
         String fileName = "testImage.png";
         byte[] mockData = "Mock image data".getBytes();
 
         when(filesService.getFiles(fileName)).thenReturn(mockData);
 
-        // Act
         ResponseEntity<byte[]> response = filesController.getImage(fileName);
 
-        // Assert
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(MediaType.valueOf("image/png"), response.getHeaders().getContentType());
@@ -71,16 +67,14 @@ class FilesControllerTest {
 
     @Test
     void testGetAllFiles_success() {
-        // Arrange
+
         Files mockFile = Files.builder().name("testFile.txt").type("text/plain").build();
         List<Files> mockFileList = Collections.singletonList(mockFile);
 
         when(filesService.getAllFiles()).thenReturn(mockFileList);
 
-        // Act
         ResponseEntity<List<Files>> response = filesController.getAllFiles();
 
-        // Assert
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(1, response.getBody().size());
@@ -90,16 +84,14 @@ class FilesControllerTest {
 
     @Test
     void testUploadFileIntoFileSystem_success() throws IOException {
-        // Arrange
+
         MockMultipartFile file = new MockMultipartFile("file", "testFile.txt", "text/plain", "Test content".getBytes());
         String expectedResponse = "File uploaded successfully into database";
 
         when(filesService.storeDataIntoFileSystem(file)).thenReturn(expectedResponse);
 
-        // Act
         ResponseEntity<String> response = filesController.uploadFileIntoFileSystem(file);
 
-        // Assert
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(expectedResponse, response.getBody());
@@ -108,16 +100,14 @@ class FilesControllerTest {
 
     @Test
     void testDownloadImageFromFileSystem_success() {
-        // Arrange
+
         String fileName = "testImage.png";
         byte[] mockData = "Mock image data".getBytes();
 
         when(filesService.getFiles(fileName)).thenReturn(mockData);
 
-        // Act
         ResponseEntity<byte[]> response = filesController.downloadImageFromFileSystem(fileName);
 
-        // Assert
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(MediaType.valueOf("image/png"), response.getHeaders().getContentType());

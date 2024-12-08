@@ -12,7 +12,6 @@ class FilesTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize the Files object before each test
         file = new Files();
     }
 

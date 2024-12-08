@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +102,7 @@ class NoteControllerTest {
         Note note = new Note();
         note.setId(noteId);
         note.setAuthor(new User());
-        note.getAuthor().setId(1L);  // Set the owner to match the token user ID.
+        note.getAuthor().setId(1L);
 
         when(userService.getUserIdFromToken(token)).thenReturn(1L);
         when(noteService.getNoteById(noteId)).thenReturn(Optional.of(note));
@@ -145,7 +144,7 @@ class NoteControllerTest {
         Note note = new Note();
         note.setId(noteId);
         note.setAuthor(new User());
-        note.getAuthor().setId(2L);  // Set the owner to a different user.
+        note.getAuthor().setId(2L);
 
         when(userService.getUserIdFromToken(token)).thenReturn(1L);
         when(noteService.getNoteById(noteId)).thenReturn(Optional.of(note));

@@ -21,7 +21,6 @@ public class FileRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize a sample file object to test with
         file = Files.builder()
                 .name("sample.txt")
                 .type("text/plain")
@@ -29,13 +28,11 @@ public class FileRepositoryTest {
                 .imageData(new byte[]{1, 2, 3})
                 .build();
 
-        // Save the file to the repository before each test
         fileRepository.save(file);
     }
 
     @Test
     void testFindByName() {
-        // Test the findByName method
         Files foundFile = fileRepository.findByName("sample.txt");
 
         assertNotNull(foundFile);
@@ -46,7 +43,6 @@ public class FileRepositoryTest {
 
     @Test
     void testSaveFile() {
-        // Test saving a new file
         Files newFile = Files.builder()
                 .name("anotherfile.png")
                 .type("image/png")
@@ -56,7 +52,7 @@ public class FileRepositoryTest {
 
         Files savedFile = fileRepository.save(newFile);
 
-        assertNotNull(savedFile.getId()); // Check if the ID was generated
+        assertNotNull(savedFile.getId());
         assertEquals("anotherfile.png", savedFile.getName());
         assertEquals("image/png", savedFile.getType());
         assertEquals("/uploads/anotherfile.png", savedFile.getPath());
@@ -64,18 +60,16 @@ public class FileRepositoryTest {
 
     @Test
     void testFindByNameNotFound() {
-        // Test finding a non-existing file by name
         Files foundFile = fileRepository.findByName("nonexistent.txt");
 
-        assertNull(foundFile); // Should return null if the file does not exist
+        assertNull(foundFile);
     }
 
     @Test
     void testDeleteFile() {
-        // Test deleting a file
         fileRepository.delete(file);
 
         Files foundFile = fileRepository.findByName("sample.txt");
-        assertNull(foundFile); // The file should be deleted
+        assertNull(foundFile);
     }
 }

@@ -31,7 +31,7 @@ class NoteTest {
 
     @Test
     void testNoteBuilder() {
-        // Test note creation using builder
+
         Note note = Note.builder()
                 .id(1L)
                 .subject(subject)
@@ -51,7 +51,7 @@ class NoteTest {
 
     @Test
     void testNotePrePersist() {
-        // Test if uploadDate is set before persistence
+
         Note note = Note.builder()
                 .subject(subject)
                 .filePath("path/to/file")
@@ -61,7 +61,7 @@ class NoteTest {
                 .isPublic(true)
                 .build();
 
-        note.onCreate();  // manually invoke the PrePersist logic
+        note.onCreate();
 
         assertNotNull(note.getUploadDate());
         assertTrue(note.getUploadDate().isBefore(LocalDateTime.now().plusSeconds(1)));
@@ -69,7 +69,7 @@ class NoteTest {
 
     @Test
     void testNoteConstructor() {
-        // Test constructor initialization
+
         Note note = new Note(1L, subject, "path/to/file", "Test message", "Test Title", author, true, LocalDateTime.now());
 
         assertNotNull(note);
@@ -80,7 +80,7 @@ class NoteTest {
 
     @Test
     void testGettersAndSetters() {
-        // Test getters and setters
+
         note.setId(1L);
         note.setFilePath("path/to/file");
         note.setMessage("Test message");

@@ -19,7 +19,7 @@ public class SubjectRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        // Set up test data
+
         subject = Subject.builder()
                 .name("Mathematics")
                 .major("Science")
@@ -30,10 +30,9 @@ public class SubjectRepositoryTest {
 
     @Test
     public void testFindByName() {
-        // Retrieve the subject by name
+
         Subject foundSubject = subjectRepository.findByName("Mathematics");
 
-        // Assert that the retrieved subject matches the saved subject
         assertNotNull(foundSubject);
         assertEquals("Mathematics", foundSubject.getName());
         assertEquals("Science", foundSubject.getMajor());
@@ -41,25 +40,21 @@ public class SubjectRepositoryTest {
 
     @Test
     public void testFindByNameNotFound() {
-        // Try to find a subject that doesn't exist
-        Subject foundSubject = subjectRepository.findByName("History");
+        Subject foundSubject = (Subject) subjectRepository.findByName("History");
 
-        // Assert that no subject is found
         assertNull(foundSubject);
     }
 
     @Test
     public void testSaveSubject() {
-        // Create a new subject
+
         Subject newSubject = Subject.builder()
                 .name("History")
                 .major("Arts")
                 .build();
 
-        // Save the new subject
         Subject savedSubject = subjectRepository.save(newSubject);
 
-        // Assert that the saved subject has an ID and matches the input data
         assertNotNull(savedSubject.getId());
         assertEquals("History", savedSubject.getName());
         assertEquals("Arts", savedSubject.getMajor());
@@ -67,8 +62,7 @@ public class SubjectRepositoryTest {
 
     @Test
     public void testSubjectNotFound() {
-        // Assert that there is no subject with a non-existing name
-        Subject subject = subjectRepository.findByName("Non-existing subject");
+        Subject subject = subjectRepository.findByMajor("Non-existing subject");
         assertNull(subject);
     }
 }
