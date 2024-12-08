@@ -50,4 +50,6 @@ public class User {
     @Column(nullable = false)
     private boolean isActive = false;
 
+    public User(long l, String johnDoe, String mail) {
+    }
 }

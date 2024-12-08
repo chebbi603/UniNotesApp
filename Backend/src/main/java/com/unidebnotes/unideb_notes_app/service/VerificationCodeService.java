@@ -49,4 +49,8 @@ public class VerificationCodeService {
     public boolean validateCode(String enteredCode, String actualCode) {
         return enteredCode.equals(actualCode);
     }
+
+    public Object matches(String s, String eq) {
+        return null;
+    }
 }

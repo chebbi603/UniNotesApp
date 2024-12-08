@@ -51,7 +51,15 @@ public class Note {
     private LocalDateTime uploadDate; // The date when the note was uploaded
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         this.uploadDate = LocalDateTime.now(); // Automatically set the upload date before saving
+    }
+
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
     }
 }
