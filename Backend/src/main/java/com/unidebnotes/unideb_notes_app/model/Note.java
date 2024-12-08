@@ -21,6 +21,10 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id", nullable = false)
+    private Subject subject; // Relationship with Subject
+
     @Column(nullable = false)
     private String filePath; // Path or URL to the uploaded file
 
@@ -30,15 +34,15 @@ public class Note {
     @Column(nullable = false)
     private String title; // The title of the note
 
-    @Column(nullable = false)
-    private String courseName; // The name of the course associated with the note
+    /*@Column(nullable = false)
+    private String courseName; // The name of the course associated with the note*/
 
     @ManyToOne(fetch = FetchType.LAZY) // Represents the user who authored the note
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
-    @Column(nullable = false)
-    private String major; // The field of study or subject associated with the note
+    /*@Column(nullable = false)
+    private String major; // The field of study or subject associated with the note*/
 
     @Column(nullable = false)
     private boolean isPublic; // Visibility of the note (public/private)

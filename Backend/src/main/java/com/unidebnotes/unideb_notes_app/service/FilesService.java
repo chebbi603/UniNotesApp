@@ -21,7 +21,7 @@ public class FilesService {
     @Autowired
     private FileRepository fileRepository;
 
-    private final String FILE_PATH = "C:\\Users\\rayha\\IdeaProjects\\Software\\Backend\\uploads";
+    private final String FILE_PATH = "C:\\Users\\DELL\\Documents\\projectCLONE\\UniNotesApp\\Backend\\uploads\\";
 
     public String storeFile(MultipartFile file) throws IOException {
         Files files = Files
