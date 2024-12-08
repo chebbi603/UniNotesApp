@@ -1,18 +1,27 @@
 package com.unidebnotes.unideb_notes_app.controller;
 
 import com.unidebnotes.unideb_notes_app.model.Note;
+import com.unidebnotes.unideb_notes_app.service.FilesService;
 import com.unidebnotes.unideb_notes_app.service.NoteService;
+import com.unidebnotes.unideb_notes_app.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/notes")
@@ -20,6 +29,12 @@ public class NoteController {
 
     @Autowired
     private NoteService noteService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private FilesService fileService;
 
     private final Path fileStorageLocation = Path.of("uploads"); // Define upload directory
 
@@ -62,4 +77,76 @@ public class NoteController {
     public List<Note> getNotesBySubject(@PathVariable Long subjectId) {
         return noteService.getNotesBySubjectId(subjectId);
     }
+
+    /*// Delete a note by ID
+    @DeleteMapping("/{noteId}")
+    public ResponseEntity<String> deleteNote(@PathVariable Long noteId) {
+        noteService.deleteNoteById(noteId);
+        return ResponseEntity.ok("Note deleted successfully");
+    }*/
+
+    @GetMapping("/user/notes")
+    public ResponseEntity<List<Note>> getNotesForUser(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        List<Note> notes = noteService.getNotesByUserId(userId);
+        return ResponseEntity.ok(notes);
+    }
+
+    @DeleteMapping("/{noteId}")
+    public ResponseEntity<String> deleteNote(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long noteId) {
+
+        // Ensure token is valid
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized request");
+        }
+
+        String token = authorization.substring(7); // Remove "Bearer " prefix
+        Long userId;
+        try {
+            userId = userService.getUserIdFromToken(token);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+
+        // Get the note and check ownership
+        Optional<Note> noteOptional = noteService.getNoteById(noteId);
+        if (noteOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Note not found");
+        }
+
+        Note note = noteOptional.get();
+
+        // Ensure only the note's author can delete the note
+        if (!note.getAuthor().getId().equals(userId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this note");
+        }
+
+        noteService.deleteNoteById(noteId);
+
+        return ResponseEntity.ok("Note deleted successfully");
+    }
+
+    /*@GetMapping("/{id}/download")
+    public ResponseEntity<?> downloadFile(@PathVariable Long id) {
+        String filePath = noteService.getFilePathByNoteId(id);
+        if (filePath == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                return ResponseEntity.ok()
+                        .header("Content-Disposition", "attachment; filename=\"" + path.getFileName().toString() + "\"")
+                        .body(Files.readAllBytes(path));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Could not read file.");
+        }
+    }*/
+
 }

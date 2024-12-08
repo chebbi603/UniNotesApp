@@ -8,6 +8,10 @@ import com.unidebnotes.unideb_notes_app.repository.SubjectRepository;
 import com.unidebnotes.unideb_notes_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,4 +53,33 @@ public class NoteService {
     public List<Note> getNotesBySubjectId(Long subjectId) {
         return noteRepository.findAllBySubjectId(subjectId); // Query notes by subjectId
     }
+
+    public void deleteNoteById(Long noteId) {
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new IllegalArgumentException("Note not found"));
+
+        String filePath = note.getFilePath();
+
+        // Delete the note from the database
+        noteRepository.delete(note);
+
+        // Check if other notes reference the same file
+        boolean isFileReferenced = noteRepository.existsByFilePath(filePath);
+
+        // Delete the file only if no other notes reference it
+        if (!isFileReferenced) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+    }
+    public List<Note> getNotesByUserId(Long userId) {
+        return noteRepository.findAllByAuthorId(userId);
+    }
+
+    public Optional<Note> getNoteById(Long noteId) {
+        return noteRepository.findById(noteId);
+    }
+
 }
