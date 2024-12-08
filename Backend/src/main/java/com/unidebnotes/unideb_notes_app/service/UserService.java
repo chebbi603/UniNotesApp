@@ -118,4 +118,39 @@ public class UserService {
         throw new IllegalArgumentException("Invalid Token");
     }
 
+    // Request Password Reset
+    public void requestPasswordReset(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("Email not found");
+        }
+
+        // Generate and send a verification code
+        String code = verificationCodeService.generateVerificationCode();
+        verificationCodes.put(email, code);
+        verificationCodeService.sendVerificationEmail(email, code);
+    }
+
+    public void validateAndResetPassword(String email, String enteredCode, String newPassword) {
+        // Validate the reset code
+        String actualCode = verificationCodes.get(email);
+        if (actualCode == null || !enteredCode.equals(actualCode)) {
+            throw new IllegalArgumentException("Invalid or expired verification code.");
+        }
+
+        // Proceed to reset the password after successful validation
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("Email not found.");
+        }
+
+        User user = userOptional.get();
+        user.setPassword(hashPassword(newPassword));
+        userRepository.save(user);
+
+        // Clear the code to ensure one-time use
+        verificationCodes.remove(email);
+    }
+
+
 }

@@ -63,4 +63,30 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    // Request Password Reset
+    @PostMapping("/password/reset/request")
+    public ResponseEntity<String> requestPasswordReset(@RequestParam String email) {
+        try {
+            userService.requestPasswordReset(email);
+            return ResponseEntity.ok("Password reset verification code sent to your email.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/password/reset")
+    public ResponseEntity<String> resetPassword(
+            @RequestParam String email,
+            @RequestParam String code,
+            @RequestParam String newPassword
+    ) {
+        try {
+            userService.validateAndResetPassword(email, code, newPassword);
+            return ResponseEntity.ok("Password has been reset successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 }
