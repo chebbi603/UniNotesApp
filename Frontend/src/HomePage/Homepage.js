@@ -29,7 +29,20 @@ function HomePage() {
           self.direction === -1 ? showAnim.play() : showAnim.reverse();
         },
       });
-
+      gsap.fromTo(
+        ".landing-page",
+        {
+          y: -10,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          delay: 0.3,
+          duration: 0.8,
+          ease: "power3.out",
+        }
+      );
       gsap.to(".landing-page__img1", {
         scrollTrigger: {
           trigger: ".landing-page",
@@ -52,7 +65,6 @@ function HomePage() {
 
     return () => ctx.revert();
   }, []);
-
   return (
     <>
       <Navbar navCount={1} navButton={1} isLoggedIn={0} />

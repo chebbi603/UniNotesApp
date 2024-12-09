@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 import "../fontstyle.css";
 import navbarlogo from "../assets/notes-logo-nav.svg";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom"; // Import useNavigate hook
 import {
   IconBell,
   IconMessage,
@@ -12,6 +12,37 @@ import {
 } from "@tabler/icons-react";
 
 const Navbar = ({ navCount, navButton, isLoggedIn }) => {
+  const [keyword, setKeyword] = useState("");
+  const myElementRef = useRef(null);
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  useEffect(() => {
+    const element = myElementRef.current;
+
+    if (element) {
+      const handleKeyDown = (e) => {
+        if (e.code === "Enter") {
+          // If "Enter" is pressed, navigate to the search page with the keyword
+          navigate(`/search/${keyword}`);
+        }
+      };
+      const handleClick = (e) => {
+        // If "Enter" is pressed, navigate to the search page with the keyword
+        navigate(`/search/`);
+      };
+
+      // Add event listener for the "Enter" keydown event
+      element.addEventListener("keydown", handleKeyDown);
+      element.addEventListener("click", handleClick);
+
+      // Cleanup the event listener on component unmount
+      return () => {
+        element.removeEventListener("keydown", handleKeyDown);
+        element.addEventListener("click", handleClick);
+      };
+    }
+  }, [keyword, navigate]);
+
   return (
     <nav className="navbar">
       {isLoggedIn === 0 ? (
@@ -28,7 +59,7 @@ const Navbar = ({ navCount, navButton, isLoggedIn }) => {
             <li>
               <NavLink
                 to="/"
-                className={` navbar__link ${
+                className={`navbar__link ${
                   navCount === 1 ? "b1-bold active" : "b1-reg"
                 }`}
               >
@@ -38,7 +69,7 @@ const Navbar = ({ navCount, navButton, isLoggedIn }) => {
             <li>
               <a
                 href=""
-                className={` navbar__link ${
+                className={`navbar__link ${
                   navCount === 3 ? "b1-bold active" : "b1-reg"
                 }`}
               >
@@ -48,7 +79,7 @@ const Navbar = ({ navCount, navButton, isLoggedIn }) => {
             <li>
               <a
                 href=""
-                className={` navbar__link ${
+                className={`navbar__link ${
                   navCount === 4 ? "b1-bold active" : "b1-reg"
                 }`}
               >
@@ -81,40 +112,34 @@ const Navbar = ({ navCount, navButton, isLoggedIn }) => {
             <li>
               <NavLink
                 to="/dashboard"
-                className={` navbar__link ${
+                className={`navbar__link ${
                   navCount === 1 ? "b1-bold active" : "b1-reg"
                 }`}
               >
                 Dashboard
               </NavLink>
             </li>
+
             <li>
-              <a
-                href=""
-                className={` navbar__link ${
-                  navCount === 3 ? "b1-bold active" : "b1-reg"
-                }`}
-              >
-                Explore
-              </a>
-            </li>
-            <li>
-              <a
-                href=""
-                className={` navbar__link ${
+              <NavLink
+                to="/library"
+                className={`navbar__link ${
                   navCount === 4 ? "b1-bold active" : "b1-reg"
                 }`}
               >
                 My Library
-              </a>
+              </NavLink>
             </li>
           </ul>
           <div className="input-container">
-            <IconSearch></IconSearch>
+            <IconSearch />
             <input
               placeholder="Search for anything"
               className="search-input b1-reg"
-            ></input>
+              ref={myElementRef}
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)} // Update keyword as user types
+            />
           </div>
           <div className="nav-buttons">
             <div className="navbar__cta">
@@ -122,12 +147,21 @@ const Navbar = ({ navCount, navButton, isLoggedIn }) => {
                 <button className="navbar__button b1-bold">Create note</button>
               </NavLink>
             </div>
-            <IconMessage className="nav-button-icon" size={32}></IconMessage>
-            <IconBell className="nav-button-icon" size={32}></IconBell>
-            <img
-              className="nav-avatar"
-              src="https://scontent-vie1-1.xx.fbcdn.net/v/t39.30808-6/439438068_2589492631231246_1843397142712707744_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=vwUTJuB-MRwQ7kNvgEdxVlz&_nc_zt=23&_nc_ht=scontent-vie1-1.xx&_nc_gid=ADcZWIeZXapIfmcB8ZBsLpc&oh=00_AYAecbVyerzdjkXBUA-Pk-ewL38yL8eAFjbd0tsRjSBwjg&oe=67533A4D"
-            />
+            <IconMessage className="nav-button-icon" size={32} />
+            <IconBell className="nav-button-icon" size={32} />
+            <NavLink to="/profile">
+              {navCount === 5 ? (
+                <img
+                  className="nav-avatar-selected"
+                  src="https://cdn3.emoji.gg/emojis/8015-book-hat.png"
+                />
+              ) : (
+                <img
+                  className="nav-avatar"
+                  src="https://cdn3.emoji.gg/emojis/8015-book-hat.png"
+                />
+              )}
+            </NavLink>
           </div>
         </div>
       )}

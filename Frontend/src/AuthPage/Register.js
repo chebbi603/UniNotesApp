@@ -6,6 +6,7 @@ import img from "../assets/image3.png";
 import { NavLink } from "react-router-dom";
 import axios from "../api/axios";
 import { HttpStatusCode } from "axios";
+import { IconAlertCircle } from "@tabler/icons-react";
 
 const REGISTER_URL = "/api/users/register";
 const VERIFY_URL = "/api/users/verify";
@@ -17,6 +18,8 @@ function Register() {
   const [major, setMajor] = useState("");
   const [code, setCode] = useState("");
   const [registerMode, setRegisterMode] = useState(1);
+  const [prob, setProb] = useState(false);
+  const [message, setMessage] = useState([]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -35,7 +38,18 @@ function Register() {
       );
       if (response?.status == HttpStatusCode.Ok) setRegisterMode(2);
     } catch (error) {
-      console.log("error");
+      setProb(true);
+      if (error.response.data !== "Email is already in use") {
+        const res = Object.entries(error.response.data).map(([name, obj]) => ({
+          name,
+          obj,
+        }));
+        console.log(res);
+        setMessage(res);
+      } else {
+        setMessage([{ name: 0, obj: "Email is already in use" }]);
+        console.log(message);
+      }
     }
   };
 
@@ -52,7 +66,8 @@ function Register() {
       );
       if (response?.status === HttpStatusCode.Ok) setRegisterMode(3);
     } catch (error) {
-      console.log("error");
+      setProb(true);
+      setMessage(error.response.data.json());
     }
   };
 
@@ -100,12 +115,37 @@ function Register() {
                 className="auth-input b1-reg"
               >
                 <option value="">Select major</option>
-                <option value="CSE">Computer Science Engineering</option>
-                <option value="BI">Business Informatics</option>
-                <option value="CS">Computer Science</option>
+                <option value="Computer Science Engineering">
+                  Computer Science Engineering
+                </option>
+                <option value="Business Informatics">
+                  Business Informatics
+                </option>
+                <option value="Computer Science">Computer Science</option>
               </select>
             </div>
           </div>
+          {prob === true ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <IconAlertCircle color="red" size={24}></IconAlertCircle>
+              <div>
+                {message.map((m) => (
+                  <p style={{ color: "red" }} className="b2-bold error-message">
+                    - {m.obj}
+                  </p>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div style={{ height: "20px" }}></div>
+          )}
         </div>
         <NavLink className="auth-link" to="/verify">
           <button onClick={handleRegister} className="auth-cta h6-bold">

@@ -6,7 +6,6 @@ import { Navigate, NavLink } from "react-router-dom";
 import AuthContext from "./AuthProvider";
 import axios from "../api/axios";
 import { IconAlertCircle } from "@tabler/icons-react";
-
 const LOGIN_URL = "/api/users/login";
 
 function Login() {
@@ -15,32 +14,36 @@ function Login() {
   const { setAuth } = useContext(AuthContext);
   const [success, setSuccess] = useState(false);
   const [prob, setProb] = useState(false);
+  const [message, setMessage] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
+    axios
+      .post(
         LOGIN_URL,
         {},
         {
           params: { email: email, password: pwd },
           headers: { "Content-Type": "application/json" },
         }
-      );
-      const accessToken = response?.data?.accessToken;
-      localStorage.setItem("accessToken", JSON.stringify(accessToken));
-      setAuth({ email, pwd, accessToken });
-      setEmail("");
-      setPwd("");
-      setSuccess(true);
-      console.log(accessToken);
-    } catch (error) {
-      setProb(true);
-    }
+      )
+      .then((r) => {
+        setAuth({ email, pwd, accessToken });
+        localStorage.setItem("userEmail", email);
+        localStorage.setItem("accessToken", r.data);
+        setEmail("");
+        setPwd("");
+        setSuccess(true);
+      })
+      .catch((error) => {
+        setProb(true);
+        setMessage(error.response.data);
+      });
   };
 
   return success ? (
-    <Navigate to="/dashboard" />
+    <Navigate to="/dashboard-welcome" />
   ) : (
     <div className="auth-container">
       <div className="auth-content">
@@ -94,14 +97,14 @@ function Login() {
             >
               <IconAlertCircle color="red"></IconAlertCircle>
               <p style={{ color: "red" }} className="b1-bold error-message">
-                Please make sure that youe email and password are correct
+                {message}
               </p>
             </div>
           ) : (
             <div style={{ height: "20px" }}></div>
           )}
         </form>
-        <NavLink to="/dashboard">
+        <NavLink to="/dashboard-welcome">
           <button onClick={handleLogin} className="auth-cta h6-bold">
             Log in
           </button>

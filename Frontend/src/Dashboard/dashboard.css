@@ -1,6 +1,7 @@
 .main-container {
   width: 100vw;
   max-width: 1360px;
+  min-height: 1000px;
   padding: 120px 24px;
   padding-top: 160px;
   display: flex;
@@ -40,8 +41,9 @@
 .dashboard-cardlist {
   width: 100%;
   display: flex;
-  gap: 24px;
+  gap: 16px;
   padding: 24px 0px;
+  padding-left: 8px;
   overflow: scroll;
 }
 .dashboard-section-header {
