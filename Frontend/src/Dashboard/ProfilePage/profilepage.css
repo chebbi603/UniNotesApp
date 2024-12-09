@@ -1,0 +1,48 @@
+.profile-header {
+  display: flex;
+  gap: 64px;
+}
+
+.profile-avatar {
+  width: 256px;
+  height: 256px;
+  border-radius: 300px;
+  outline: 10px solid var(--Secondary__500);
+}
+
+.profile-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.profile-header-subcontent {
+  display: flex;
+  flex-direction: row;
+  gap: 72px;
+}
+.profile-header-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.profile-header-field {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-cta {
+  background-color: var(--Secondary__500);
+  color: var(--Grey__950);
+  padding: 16px 32px;
+  border: none;
+  font-weight: 600;
+  border-radius: 200px;
+  cursor: pointer;
+  transition: 0.2s ease-out;
+}
+
+.profile-cta:hover {
+  background-color: var(--Secondary__350);
+}
