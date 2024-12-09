@@ -85,4 +85,8 @@ public class NoteService {
         return noteRepository.findByTitleContainingIgnoreCase(keyword);
     }
 
+    public List<Note> getAllNotes() {
+        return noteRepository.findAll();
+    }
+
 }

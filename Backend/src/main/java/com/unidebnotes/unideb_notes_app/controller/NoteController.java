@@ -84,6 +84,11 @@ public class NoteController {
         return noteService.searchNotes(keyword);
     }
 
+    @GetMapping("/getAll/")
+    public List<Note> getAllNotes() {
+        return noteService.getAllNotes();
+    }
+
     /*// Delete a note by ID
     @DeleteMapping("/{noteId}")
     public ResponseEntity<String> deleteNote(@PathVariable Long noteId) {
