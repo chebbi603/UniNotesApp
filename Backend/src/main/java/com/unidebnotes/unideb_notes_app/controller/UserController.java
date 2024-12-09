@@ -112,6 +112,7 @@ public class UserController {
             @RequestParam String newPassword
     ) {
         try {
+
             userService.validateAndResetPassword(email, code, newPassword);
             return ResponseEntity.ok("Password has been reset successfully.");
         } catch (IllegalArgumentException e) {
