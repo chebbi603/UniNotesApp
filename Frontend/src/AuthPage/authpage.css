@@ -13,10 +13,11 @@
 .auth-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding: 24px;
   max-width: 1280px;
-  padding: 24px;
+  padding-bottom: 140px;
 }
 
 .auth-content {
@@ -92,4 +93,8 @@
 }
 .major-select {
   width: 100px;
+}
+
+.auth-img {
+  height: 50vh;
 }

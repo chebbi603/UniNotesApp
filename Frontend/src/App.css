@@ -46,3 +46,12 @@ body {
   --Secondary__800: #b7b1e7;
   --Secondary__950: #edebf9;
 }
+
+.image-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

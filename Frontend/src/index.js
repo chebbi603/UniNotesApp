@@ -4,13 +4,20 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
+import { AuthProvider } from "./AuthPage/AuthProvider";
+import { GlobalWorkerOptions } from "pdfjs-dist";
+import { pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <HashRouter>
-      <App />
-    </HashRouter>
+    <AuthProvider>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
 
